@@ -1,5 +1,5 @@
 pipeline {
-    
+
     agent {
         node {
             label 'docker-agent-python'
@@ -15,6 +15,8 @@ pipeline {
             steps {
                 echo "Doing building stuff ..."
                 sh 'python --version'
+                sh 'python script.py'
+
             }
         }
 
@@ -24,7 +26,7 @@ pipeline {
             }
         }
 
-                stage('Deliver') {
+        stage('Deliver') {
             steps {
                 echo 'Deliver....'
                 sh '''

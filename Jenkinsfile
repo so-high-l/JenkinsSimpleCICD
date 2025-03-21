@@ -13,16 +13,21 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                echo "Doing building stuff ..."
-                sh 'python --version'
-                sh 'python script.py'
-
+                sh '''
+                cd myapp
+                pip install -r requirements.txt
+                '''
             }
         }
 
         stage ('Test') {
             steps {
                 echo "Doing testing stuff ..."
+                sh '''
+                cd myapp
+                python3 hello.py 
+                python3 hello.py --name=Souhail
+                '''
             }
         }
 

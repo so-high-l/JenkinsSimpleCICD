@@ -1,5 +1,4 @@
 pipeline {
-
     agent {
         node {
             label 'docker-agent-python'
@@ -14,8 +13,11 @@ pipeline {
         stage ('Build') {
             steps {
                 sh '''
-                cd myapp
-                pip install -r requirements.txt
+                  cd myapp
+                  python3 -m venv .venv           # Create a virtual environment
+                  . .venv/bin/activate            # Activate it
+                  pip install --upgrade pip       # Upgrade pip inside the venv
+                  pip install -r requirements.txt # Install dependencies
                 '''
             }
         }
@@ -24,9 +26,10 @@ pipeline {
             steps {
                 echo "Doing testing stuff ..."
                 sh '''
-                cd myapp
-                python3 hello.py 
-                python3 hello.py --name=Souhail
+                  cd myapp
+                  . .venv/bin/activate
+                  python3 hello.py
+                  python3 hello.py --name=Souhail
                 '''
             }
         }
@@ -35,7 +38,7 @@ pipeline {
             steps {
                 echo 'Deliver....'
                 sh '''
-                echo "Doing delivery stuff ..."
+                  echo "Doing delivery stuff ..."
                 '''
             }
         }
